@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="Test Suite" parallel="false">
+    <test name="Test">
+        <classes>
+            <class name="com.appium.tests.UserSession"/>
+        </classes>
+    </test>
+<!--    <packages>-->
+<!--        <package name="com.appium.tests.UserSession"/>-->
+<!--    </packages>-->
+</suite>
