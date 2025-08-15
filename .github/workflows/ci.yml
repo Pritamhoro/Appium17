@@ -19,14 +19,32 @@ jobs:
       - name: Checkout the project
         uses: actions/checkout@v3
 
-      - name: Setup Appium
+      - name: Setup Node and Appium
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install and start Appium
         run: |
           npm install -g appium@2.18
-          appium -v
-          nohup appium > /dev/null 2>&1 &
+          appium driver install uiautomator2
+          nohup appium > appium.log 2>&1 &
+          echo "Appium started"
 
-      - name: Run tests
+      - name: Run Android Tests with Emulator
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 29
-          script: mvn clean test
+          target: google_apis
+          arch: x86_64
+          profile: Pixel_3a
+          script: |
+            adb wait-for-device
+            boot_completed=""
+            until [[ "$boot_completed" == "1" ]]; do
+              boot_completed=$(adb shell getprop sys.boot_completed | tr -d '\r')
+              echo "Waiting for emulator to boot..."
+              sleep 5
+            done
+            echo "Emulator is ready"
+            mvn clean test
