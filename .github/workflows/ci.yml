@@ -21,7 +21,7 @@ jobs:
 
       - name: Setup Appium
         run: |
-          npm install -g appium@1.22
+          npm install -g appium@2.18
           appium -v
           nohup appium > /dev/null 2>&1 &
 
