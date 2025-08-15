@@ -26,7 +26,7 @@ jobs:
           nohup appium > /dev/null 2>&1 &
 
       - name: Run tests
-        uses: reactive circus/android-emulator-runner@v2
+        uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 29
           script: mvn clean test
