@@ -1,13 +1,13 @@
-name: Android Appium Tests
+name: Android Appium Tests on macOS
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
 
 jobs:
   android-tests:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
 
     steps:
       - name: Set up JDK 17
@@ -19,13 +19,9 @@ jobs:
       - name: Checkout the project
         uses: actions/checkout@v3
 
-      - name: Install dependencies
-        if: runner.os == 'Linux'
-        run: sudo apt-get update && sudo apt-get install -y libpulse0
-
       - name: Setup Appium
         run: |
-          npm install -g appium@v1.22
+          npm install -g appium@1.22
           appium -v
           nohup appium > /dev/null 2>&1 &
 
@@ -33,7 +29,6 @@ jobs:
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 29
-          arch: x86
-          emulator-options: -accel on
+          arch: arm64-v8a
+          emulator-options: -no-accel
           script: mvn clean test
-
